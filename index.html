@@ -101,13 +101,12 @@
             display: inline-block; 
             margin: 5px;
         }
-        .btn:hover { background-color: #ff4d6d; } /* Removed scale on hover so it doesn't conflict */
+        .btn:hover { background-color: #ff4d6d; } 
         
         .btn-danger { background-color: #ff5c5c; }
         .btn-danger:hover { background-color: #ff2e2e; }
 
         /* YES/NO BUTTON CONTAINER */
-        /* Make this bigger so the buttons have room to jump */
         .button-group {
             position: relative;
             height: 150px; 
@@ -119,7 +118,7 @@
 
         #no-btn, #yes-btn {
             position: absolute; 
-            transition: all 0.3s ease; /* Smooth movement */
+            transition: all 0.3s ease; 
         }
 
         #no-btn { right: 20%; }
@@ -170,7 +169,7 @@
         <div id="question-section" class="hidden">
             <img src="cute.gif" alt="Cute Question" class="cute-icon float-anim">
             <h1>Can I be your valentine? 🥺👉👈</h1>
-            <p class="instruction" id="click-instruction">Catch the Yes button! ♡</p>
+            <p class="instruction" id="click-instruction">Please answer... ♡</p>
             
             <div class="button-group">
                 <button class="btn" id="yes-btn" onclick="handleYes()">Yes! 💖</button>
@@ -228,51 +227,47 @@
             document.getElementById('question-section').classList.remove('hidden');
         }
 
-        // --- NEW 5-CLICK GAME LOGIC ---
+        // --- NEW LOGIC: Both buttons move & grow ---
 
         let yesClickCount = 0;
         let noClickCount = 0;
 
-        // Helper to get random position
         function getRandomPosition() {
-            // Random x between -100 and 100
             const x = Math.random() * 200 - 100; 
-            // Random y between -50 and 50
             const y = Math.random() * 100 - 50;
             return { x, y };
         }
 
-        // 1. YES BUTTON LOGIC
+        // 1. YES BUTTON (Grows 20% each time)
         function handleYes() {
             yesClickCount++;
-            
-            // Get random spot
             const pos = getRandomPosition();
+            const currentSize = 1 + (yesClickCount * 0.1); // +20% size
             
-            // Calculate size (Grows by 20% each click)
-            const currentSize = 1 + (yesClickCount * 0.2); 
-            
-            // Apply Move AND Scale
             const yesBtn = document.getElementById('yes-btn');
             yesBtn.style.transform = `translate(${pos.x}px, ${pos.y}px) scale(${currentSize})`;
 
-            // Check if won
             if (yesClickCount >= 5) {
                 document.getElementById('question-section').classList.add('hidden');
                 document.getElementById('success-section').classList.remove('hidden');
             }
         }
 
-        // 2. NO BUTTON LOGIC
+        // 2. NO BUTTON (Grows 10% each time - Not too big)
         function moveNo() {
             const noBtn = document.getElementById('no-btn');
             const pos = getRandomPosition();
-            noBtn.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+            
+            // Calculate size based on current clicks
+            // I used 0.1 (10%) so it grows slower than the Yes button
+            const currentSize = 1 + (noClickCount * 0.1); 
+            
+            noBtn.style.transform = `translate(${pos.x}px, ${pos.y}px) scale(${currentSize})`;
         }
 
         function handleNoClick() {
             noClickCount++;
-            moveNo(); // Move it again if they click it
+            moveNo(); // This will trigger the move AND the new size
             
             if (noClickCount >= 5) {
                 document.getElementById('question-section').classList.add('hidden');
