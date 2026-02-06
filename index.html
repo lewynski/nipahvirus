@@ -95,37 +95,35 @@
             background-color: #ff8fa3; 
             color: white; border: none; padding: 12px 28px;
             font-size: 0.95rem; font-weight: 700; border-radius: 50px;
-            cursor: pointer; transition: all 0.2s ease; /* Smooth growing */
+            cursor: pointer; transition: all 0.3s ease; /* Smooth transition */
             margin-top: 10px; font-family: 'Quicksand', sans-serif;
             box-shadow: 0 4px 6px rgba(255, 77, 109, 0.2);
             display: inline-block; 
             margin: 5px;
         }
-        .btn:hover { background-color: #ff4d6d; transform: scale(1.05); }
+        .btn:hover { background-color: #ff4d6d; } /* Removed scale on hover so it doesn't conflict */
         
         .btn-danger { background-color: #ff5c5c; }
         .btn-danger:hover { background-color: #ff2e2e; }
 
         /* YES/NO BUTTON CONTAINER */
+        /* Make this bigger so the buttons have room to jump */
         .button-group {
             position: relative;
-            height: 100px; /* More space for the growing button */
+            height: 150px; 
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        #no-btn {
+        #no-btn, #yes-btn {
             position: absolute; 
-            right: 15%; 
-            transition: top 0.2s, left 0.2s; 
+            transition: all 0.3s ease; /* Smooth movement */
         }
-        
-        #yes-btn {
-            position: absolute;
-            left: 15%; 
-            z-index: 20; 
-        }
+
+        #no-btn { right: 20%; }
+        #yes-btn { left: 20%; z-index: 20; }
 
         .hidden { display: none; }
 
@@ -172,7 +170,7 @@
         <div id="question-section" class="hidden">
             <img src="cute.gif" alt="Cute Question" class="cute-icon float-anim">
             <h1>Can I be your valentine? 🥺👉👈</h1>
-            <p class="instruction" id="click-instruction">Please answer... ♡</p>
+            <p class="instruction" id="click-instruction">Catch the Yes button! ♡</p>
             
             <div class="button-group">
                 <button class="btn" id="yes-btn" onclick="handleYes()">Yes! 💖</button>
@@ -195,7 +193,7 @@
     </div>
 
     <script>
-        // --- PREVIOUS LOGIC (Loading, Pranks, Message) ---
+        // --- PREVIOUS LOGIC ---
         window.addEventListener('load', function() {
             setTimeout(function() {
                 const loader = document.getElementById('loader');
@@ -230,27 +228,36 @@
             document.getElementById('question-section').classList.remove('hidden');
         }
 
-        // --- NEW 5-CLICK LOGIC ---
+        // --- NEW 5-CLICK GAME LOGIC ---
 
         let yesClickCount = 0;
         let noClickCount = 0;
+
+        // Helper to get random position
+        function getRandomPosition() {
+            // Random x between -100 and 100
+            const x = Math.random() * 200 - 100; 
+            // Random y between -50 and 50
+            const y = Math.random() * 100 - 50;
+            return { x, y };
+        }
 
         // 1. YES BUTTON LOGIC
         function handleYes() {
             yesClickCount++;
             
-            // Make the button grow with each click!
-            const yesBtn = document.getElementById('yes-btn');
-            const currentSize = 1 + (yesClickCount * 0.2); // grows by 20% each time
-            yesBtn.style.transform = `scale(${currentSize})`;
+            // Get random spot
+            const pos = getRandomPosition();
             
-            // Optional: Change text to encourage them
-            if(yesClickCount < 5) {
-                // Shake effect or just wait
-            }
+            // Calculate size (Grows by 20% each click)
+            const currentSize = 1 + (yesClickCount * 0.2); 
+            
+            // Apply Move AND Scale
+            const yesBtn = document.getElementById('yes-btn');
+            yesBtn.style.transform = `translate(${pos.x}px, ${pos.y}px) scale(${currentSize})`;
 
+            // Check if won
             if (yesClickCount >= 5) {
-                // Success!
                 document.getElementById('question-section').classList.add('hidden');
                 document.getElementById('success-section').classList.remove('hidden');
             }
@@ -259,17 +266,15 @@
         // 2. NO BUTTON LOGIC
         function moveNo() {
             const noBtn = document.getElementById('no-btn');
-            const x = Math.random() * 200 - 100; 
-            const y = Math.random() * 100 - 50;  
-            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+            const pos = getRandomPosition();
+            noBtn.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
         }
 
         function handleNoClick() {
             noClickCount++;
-            moveNo(); 
-
+            moveNo(); // Move it again if they click it
+            
             if (noClickCount >= 5) {
-                // Sad Ending
                 document.getElementById('question-section').classList.add('hidden');
                 document.getElementById('sad-section').classList.remove('hidden');
             }
