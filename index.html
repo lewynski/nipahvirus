@@ -82,6 +82,13 @@
             margin-bottom: 15px;
             border-radius: 10px;
         }
+        
+        /* Bunny Gif Size */
+        .bunny-icon {
+            width: 130px; 
+            margin-bottom: 15px;
+            border-radius: 10px;
+        }
 
         /* --- TEXT STYLING --- */
         h1 {
@@ -93,7 +100,7 @@
         
         .error-text {
             color: #d6334f;
-            font-family: 'Courier New', Courier, monospace; /* Techy font for error */
+            font-family: 'Courier New', Courier, monospace;
             font-weight: bold;
             font-size: 1.8rem;
         }
@@ -106,6 +113,16 @@
             letter-spacing: 1px;
         }
 
+        /* Style for the heartfelt message */
+        .message-text {
+            color: #555;
+            font-size: 0.95rem; /* Slightly smaller to fit text */
+            line-height: 1.6;
+            text-align: justify; /* Makes the block of text look neat */
+            text-align-last: center; /* Centers the last line */
+            margin-bottom: 20px;
+        }
+
         /* --- BUTTONS --- */
         .btn {
             background-color: #ff4d6d;
@@ -116,12 +133,11 @@
             border-radius: 50px;
             cursor: pointer;
             transition: transform 0.2s, background 0.2s;
-            margin-top: 20px;
+            margin-top: 10px;
             font-family: 'Playfair Display', serif;
         }
         .btn:hover { background-color: #d6334f; transform: translateY(-2px); }
         
-        /* Red button for the second error */
         .btn-danger {
             background-color: #ff0000;
         }
@@ -157,7 +173,17 @@
             <img src="prankk.gif" alt="Error" class="prank-icon">
             <h1 class="error-text">CRITICAL FAILURE!</h1>
             <p class="instruction">Virus detected. Attempting manual reboot...</p>
-            <button class="btn btn-danger" onclick="finalFix()">EMERGENCY REBOOT</button>
+            <button class="btn btn-danger" onclick="showRealMessage()">EMERGENCY REBOOT</button>
+        </div>
+        
+        <div id="message-section" class="hidden">
+            <img src="bunny.gif" alt="Cute Bunny" class="bunny-icon">
+            <p class="message-text">
+                I didn't expect that someone who has started as a stranger would end up meaning this much to me. 
+                We've had our ups and downs, and there were moments when we stopped talking, but I'm really 
+                thankful that we're okay again and able to talk now. It means a lot to me, and I'm genuinely glad I met you.
+            </p>
+            <button class="btn" onclick="nextSurprise()">Next ❤️</button>
         </div>
 
     </div>
@@ -189,10 +215,16 @@
             document.getElementById('prank-section-2').classList.remove('hidden');
         }
 
-        // 4. Reboot Click -> Move to Real Content
-        function finalFix() {
-            alert("Okay, okay, just kidding! Here is the real question...");
-            // Next step: We add the "Will you be my Valentine?" code here
+        // 4. Reboot Click -> Show Real Message
+        function showRealMessage() {
+            alert("Just kidding! No errors here. :)");
+            document.getElementById('prank-section-2').classList.add('hidden');
+            document.getElementById('message-section').classList.remove('hidden');
+        }
+        
+        // 5. Next Button (Placeholder for next feature)
+        function nextSurprise() {
+            alert("What's next? Maybe the big question?");
         }
     </script>
 
