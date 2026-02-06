@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For You</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
         /* --- CSS Styles --- */
@@ -16,7 +16,8 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            font-family: 'Playfair Display', serif;
+            /* Using the cute font everywhere */
+            font-family: 'Quicksand', sans-serif; 
             overflow: hidden;
             
             /* BACKGROUND IMAGE SETTINGS */
@@ -49,8 +50,8 @@
         /* --- MAIN CARD --- */
         .card {
             background: rgba(255, 255, 255, 0.95);
-            padding: 3rem 2rem;
-            border-radius: 15px;
+            padding: 2.5rem 2rem;
+            border-radius: 25px; /* Rounder corners = Cuter */
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             text-align: center;
             max-width: 350px;
@@ -77,71 +78,68 @@
         }
         .mail-icon:hover { transform: scale(1.1) rotate(-5deg); }
 
-        .prank-icon {
+        .prank-icon, .bunny-icon {
             width: 120px;
             margin-bottom: 15px;
-            border-radius: 10px;
-        }
-        
-        /* Bunny Gif Size */
-        .bunny-icon {
-            width: 130px; 
-            margin-bottom: 15px;
-            border-radius: 10px;
+            border-radius: 15px;
         }
 
         /* --- TEXT STYLING --- */
         h1 {
-            color: #d6334f;
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+            color: #ff4d6d;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
             font-weight: 700;
+            /* Cute text shadow */
+            text-shadow: 1px 1px 0px rgba(255, 200, 200, 0.5); 
         }
         
         .error-text {
             color: #d6334f;
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
-            font-size: 1.8rem;
+            font-family: 'Quicksand', sans-serif; /* Keep it cute even in error */
+            font-weight: 800;
+            font-size: 1.6rem;
         }
 
         .instruction {
             color: #888;
             font-size: 0.9rem;
-            font-style: italic;
+            font-weight: 600;
             margin-top: 5px;
-            letter-spacing: 1px;
         }
 
-        /* Style for the heartfelt message */
+        /* Message Text */
         .message-text {
             color: #555;
-            font-size: 0.95rem; /* Slightly smaller to fit text */
+            font-size: 0.9rem;
             line-height: 1.6;
-            text-align: justify; /* Makes the block of text look neat */
-            text-align-last: center; /* Centers the last line */
+            font-weight: 600;
+            text-align: justify;
+            text-align-last: center;
             margin-bottom: 20px;
         }
 
         /* --- BUTTONS --- */
         .btn {
-            background-color: #ff4d6d;
+            background-color: #ff8fa3; /* Pastel Pink */
             color: white;
             border: none;
-            padding: 10px 25px;
-            font-size: 0.9rem;
+            padding: 12px 28px;
+            font-size: 0.95rem;
+            font-weight: 700;
             border-radius: 50px;
             cursor: pointer;
             transition: transform 0.2s, background 0.2s;
             margin-top: 10px;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Quicksand', sans-serif;
+            box-shadow: 0 4px 6px rgba(255, 77, 109, 0.2); /* Soft shadow */
         }
-        .btn:hover { background-color: #d6334f; transform: translateY(-2px); }
+        .btn:hover { background-color: #ff4d6d; transform: scale(1.05); }
         
         .btn-danger {
-            background-color: #ff0000;
+            background-color: #ff5c5c; /* Soft Red */
         }
-        .btn-danger:hover { background-color: #cc0000; }
+        .btn-danger:hover { background-color: #ff2e2e; }
 
         /* Utility to hide sections */
         .hidden { display: none; }
@@ -158,32 +156,32 @@
         
         <div id="mail-section">
             <img src="vmail.gif" alt="Open Mail" class="mail-icon" onclick="triggerPrank()">
-            <h1>Hello! I have something to tell you</h1>
-            <p class="instruction">Tap the mail to open</p>
+            <h1>Hello! I have something to tell you... (ꈍᴗꈍ) ♡</h1>
+            <p class="instruction">Tap the mail to open it! ✉️✨</p>
         </div>
 
         <div id="prank-section-1" class="hidden">
             <img src="prank.gif" alt="Error" class="prank-icon">
-            <h1 class="error-text">SYSTEM ERROR!</h1>
-            <p class="instruction">Wait... this wasn't supposed to happen.</p>
-            <button class="btn" onclick="triggerSecondError()">Fix System</button>
+            <h1 class="error-text">SYSTEM ERROR! (＞﹏＜)</h1>
+            <p class="instruction">Oh no! This wasn't supposed to happen! ☁️💦</p>
+            <button class="btn" onclick="triggerSecondError()">Fix System 🔧✨</button>
         </div>
 
         <div id="prank-section-2" class="hidden">
             <img src="prankk.gif" alt="Error" class="prank-icon">
-            <h1 class="error-text">CRITICAL FAILURE!</h1>
-            <p class="instruction">Virus detected. Attempting manual reboot...</p>
-            <button class="btn btn-danger" onclick="showRealMessage()">EMERGENCY REBOOT</button>
+            <h1 class="error-text">CRITICAL FAILURE! ✖_✖</h1>
+            <p class="instruction">Virus detected! Rebooting... ⚠️💔</p>
+            <button class="btn btn-danger" onclick="showRealMessage()">EMERGENCY REBOOT 🚨</button>
         </div>
         
         <div id="message-section" class="hidden">
             <img src="bunny.gif" alt="Cute Bunny" class="bunny-icon">
             <p class="message-text">
-                I didn't expect that someone who has started as a stranger would end up meaning this much to me. 
+                ✨ I didn't expect that someone who has started as a stranger would end up meaning this much to me. 
                 We've had our ups and downs, and there were moments when we stopped talking, but I'm really 
-                thankful that we're okay again and able to talk now. It means a lot to me, and I'm genuinely glad I met you.
+                thankful that we're okay again and able to talk now. It means a lot to me, and I'm genuinely glad I met you. ♡
             </p>
-            <button class="btn" onclick="nextSurprise()">Next ❤️</button>
+            <button class="btn" onclick="nextSurprise()">Next ➜ (｡•̀ᴗ-)✧</button>
         </div>
 
     </div>
@@ -217,14 +215,14 @@
 
         // 4. Reboot Click -> Show Real Message
         function showRealMessage() {
-            alert("Just kidding! No errors here. :)");
+            alert("Just kidding! No errors here~ (≧◡≦)");
             document.getElementById('prank-section-2').classList.add('hidden');
             document.getElementById('message-section').classList.remove('hidden');
         }
         
-        // 5. Next Button (Placeholder for next feature)
+        // 5. Next Button
         function nextSurprise() {
-            alert("What's next? Maybe the big question?");
+            alert("Coming up next...");
         }
     </script>
 
