@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For You</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
     <style>
         /* --- CSS Styles --- */
         body {
@@ -13,28 +16,24 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Playfair Display', serif; /* Aesthetic Font */
             overflow: hidden;
             
             /* BACKGROUND IMAGE SETTINGS */
-            /* This is your new Tenor GIF */
             background-image: url('spiderlly.gif'); 
-            background-size: cover;      /* Ensures it fills the whole screen */
-            background-position: center; /* Centers the image */
-            background-repeat: no-repeat;/* Prevents it from tiling */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        /* --- LOADING SCREEN CSS --- */
+        /* --- LOADING SCREEN --- */
         #loader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            
-            /* This solid color HIDES the background GIF while loading */
             background-color: #ffe6e9; 
-            
             z-index: 9999;
             display: flex;
             justify-content: center;
@@ -43,19 +42,19 @@
         }
 
         #loader img {
-            width: 150px; /* Size of the loading sticker */
+            width: 150px;
             height: auto;
         }
 
-        /* --- MAIN CARD CSS --- */
+        /* --- MAIN CARD --- */
         .card {
-            background: rgba(255, 255, 255, 0.9); /* Slightly see-through white */
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.95); /* High opacity for readability */
+            padding: 3rem 2rem; /* More spacing for aesthetic look */
+            border-radius: 15px; /* Softer corners */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             text-align: center;
-            max-width: 400px;
-            width: 90%;
+            max-width: 350px;
+            width: 85%;
             position: relative;
             z-index: 10;
             
@@ -65,27 +64,49 @@
             transition: opacity 1s ease, transform 1s ease;
         }
 
-        /* Class to show content after load */
         .content-visible {
             opacity: 1 !important;
             transform: translateY(0) !important;
         }
 
-        h1 { color: #d6334f; margin-bottom: 10px; }
-        p { color: #555; font-size: 1.1rem; line-height: 1.5; }
-        
-        .btn {
-            background-color: #ff4d6d;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            border-radius: 50px;
+        /* --- MAIL GIF STYLING --- */
+        .mail-icon {
+            width: 120px; /* Adjust size of mail gif */
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-            margin-top: 15px;
+            transition: transform 0.3s ease;
+            margin-bottom: 10px;
         }
-        .btn:hover { background-color: #d6334f; transform: translateY(-2px); }
+
+        .mail-icon:hover {
+            transform: scale(1.1) rotate(-5deg); /* Cute tilt effect on hover */
+        }
+
+        /* --- TEXT STYLING --- */
+        h1 {
+            color: #d6334f;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .instruction {
+            color: #888;
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        /* Hidden message area */
+        #hidden-message {
+            display: none;
+            margin-top: 20px;
+            color: #555;
+            font-size: 1.1rem;
+            border-top: 1px solid #ffccd5; /* Divider line */
+            padding-top: 15px;
+        }
+
     </style>
 </head>
 <body>
@@ -95,37 +116,50 @@
     </div>
 
     <div class="card" id="main-card">
-        <h1>Happy Valentine's Day!</h1>
-        <p id="message">I have something special to show you...</p>
-        <button class="btn" onclick="revealSurprise()">Click Me</button>
+        
+        <img src="vmail.gif" alt="Open Mail" class="mail-icon" onclick="openMail()">
+        
+        <h1 id="main-text">Hello! I have something to tell you</h1>
+        <p class="instruction" id="sub-text">Tap the mail to open</p>
+
+        <div id="hidden-message">
+            <p>You are the best thing that ever happened to me. ❤️</p>
+            </div>
+
     </div>
 
     <script>
         window.addEventListener('load', function() {
-            
             // 8 Second Timer
             setTimeout(function() {
                 const loader = document.getElementById('loader');
                 const card = document.getElementById('main-card');
 
-                // Fade out loader
                 loader.style.opacity = '0';
-                
-                // Show the card
                 card.classList.add('content-visible');
 
-                // Remove loader completely after fade
                 setTimeout(() => {
                     loader.style.display = 'none';
                     document.body.style.overflow = 'auto'; 
                 }, 1000);
 
-            }, 10000); // 8000ms = 8 seconds
+            }, 8000); 
         });
 
-        function revealSurprise() {
-            document.getElementById('message').innerText = "Stay tuned for the special features coming next.";
-            alert("More features coming soon!");
+        // Function to "Open" the mail
+        function openMail() {
+            const mainText = document.getElementById('main-text');
+            const subText = document.getElementById('sub-text');
+            const hiddenMessage = document.getElementById('hidden-message');
+
+            // Change the text or hide it
+            mainText.innerText = "Happy Valentine's Day!";
+            subText.style.display = "none"; // Hide the instruction
+            
+            // Show the hidden message
+            hiddenMessage.style.display = "block";
+            
+            // Optional: Play sound here later if you want
         }
     </script>
 
