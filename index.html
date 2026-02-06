@@ -13,9 +13,15 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #ffe6e9; /* Light pink background */
             font-family: 'Arial', sans-serif;
-            overflow: hidden; /* Prevent scrolling while loading */
+            overflow: hidden;
+            
+            /* BACKGROUND IMAGE SETTINGS */
+            /* This is your new Tenor GIF */
+            background-image: url('spiderlly.gif'); 
+            background-size: cover;      /* Ensures it fills the whole screen */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat;/* Prevents it from tiling */
         }
 
         /* --- LOADING SCREEN CSS --- */
@@ -25,31 +31,36 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #ffe6e9; /* Same color as background so it blends */
-            z-index: 9999; /* Ensures it sits on top of everything */
+            
+            /* This solid color HIDES the background GIF while loading */
+            background-color: #ffe6e9; 
+            
+            z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 1s ease-out; /* Smooth fade out */
+            transition: opacity 1s ease-out;
         }
 
         #loader img {
-            width: 150px; /* Adjust size of the flower here */
+            width: 150px; /* Size of the loading sticker */
             height: auto;
         }
 
-        /* --- MAIN CONTENT CSS --- */
+        /* --- MAIN CARD CSS --- */
         .card {
-            background: white;
+            background: rgba(255, 255, 255, 0.9); /* Slightly see-through white */
             padding: 2rem;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             text-align: center;
             max-width: 400px;
             width: 90%;
             position: relative;
             z-index: 10;
-            opacity: 0; /* Hidden initially, revealed after load */
+            
+            /* Animation Starting State */
+            opacity: 0; 
             transform: translateY(20px);
             transition: opacity 1s ease, transform 1s ease;
         }
@@ -89,11 +100,10 @@
         <button class="btn" onclick="revealSurprise()">Click Me</button>
     </div>
 
- <script>
-        // Wait for the window to fully load (images, styles, etc.)
+    <script>
         window.addEventListener('load', function() {
             
-            // 8000 milliseconds = 8 seconds
+            // 8 Second Timer
             setTimeout(function() {
                 const loader = document.getElementById('loader');
                 const card = document.getElementById('main-card');
@@ -101,16 +111,16 @@
                 // Fade out loader
                 loader.style.opacity = '0';
                 
-                // Show the card smoothly
+                // Show the card
                 card.classList.add('content-visible');
 
-                // Remove loader from DOM after fade is done so buttons work
+                // Remove loader completely after fade
                 setTimeout(() => {
                     loader.style.display = 'none';
                     document.body.style.overflow = 'auto'; 
                 }, 1000);
 
-            }, 10000); // <--- This determines the 8 second wait
+            }, 10000); // 8000ms = 8 seconds
         });
 
         function revealSurprise() {
