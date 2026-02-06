@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    <style>
+        /* --- CSS Styles --- */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #ffe6e9; /* Light pink background */
+            font-family: 'Arial', sans-serif;
+            overflow: hidden; /* Prevent scrolling while loading */
+        }
+
+        /* --- LOADING SCREEN CSS --- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffe6e9; /* Same color as background so it blends */
+            z-index: 9999; /* Ensures it sits on top of everything */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease-out; /* Smooth fade out */
+        }
+
+        #loader img {
+            width: 150px; /* Adjust size of the flower here */
+            height: auto;
+        }
+
+        /* --- MAIN CONTENT CSS --- */
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+            opacity: 0; /* Hidden initially, revealed after load */
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        /* Class to show content after load */
+        .content-visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        h1 { color: #d6334f; margin-bottom: 10px; }
+        p { color: #555; font-size: 1.1rem; line-height: 1.5; }
+        
+        .btn {
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            margin-top: 15px;
+        }
+        .btn:hover { background-color: #d6334f; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <img src="spider-lily.gif" alt="Loading...">
+    </div>
+
+    <div class="card" id="main-card">
+        <h1>Happy Valentine's Day!</h1>
+        <p id="message">I have something special to show you...</p>
+        <button class="btn" onclick="revealSurprise()">Click Me</button>
+    </div>
+
+    <script>
+        // Wait for the window to fully load (images, styles, etc.)
+        window.addEventListener('load', function() {
+            
+            // Optional: minimal delay so they actually see the cool flower
+            setTimeout(function() {
+                const loader = document.getElementById('loader');
+                const card = document.getElementById('main-card');
+
+                // Fade out loader
+                loader.style.opacity = '0';
+                
+                // Show the card smoothly
+                card.classList.add('content-visible');
+
+                // Remove loader from DOM after fade is done so buttons work
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    document.body.style.overflow = 'auto'; // Re-enable scrolling if needed
+                }, 1000);
+
+            }, 2000); // 2000 milliseconds = 2 seconds delay
+        });
+
+        function revealSurprise() {
+            document.getElementById('message').innerText = "Stay tuned for the special features coming next.";
+            alert("More features coming soon!");
+        }
+    </script>
+
+</body>
+</html>
