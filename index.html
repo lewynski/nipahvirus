@@ -1,277 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ♡</title>
 
-    <style>
-        /* --- CSS Styles --- */
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: 'Quicksand', sans-serif; 
-            overflow: hidden;
-            
-            /* BACKGROUND IMAGE SETTINGS */
-            background-image: url('spiderlly.gif'); 
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 
-        /* --- LOADING SCREEN --- */
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #ffe6e9; 
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 1s ease-out;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        #loader img { width: 150px; height: auto; }
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 
-        /* --- MAIN CARD --- */
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2.5rem 2rem;
-            border-radius: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            text-align: center;
-            max-width: 350px;
-            width: 85%;
-            position: relative;
-            z-index: 10;
-            opacity: 0; 
-            transform: translateY(20px);
-            transition: opacity 1s ease, transform 1s ease;
-        }
+    background:
+        linear-gradient(120deg, rgba(255,182,193,0.5), rgba(255,228,225,0.5)),
+        url('spiderlly.gif') center/cover no-repeat;
+}
 
-        .content-visible { opacity: 1 !important; transform: translateY(0) !important; }
+/* FLOATING HEARTS */
+.heart {
+    position: absolute;
+    bottom: -20px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.6;
+}
 
-        /* --- IMAGES & ANIMATIONS --- */
-        .mail-icon { width: 120px; cursor: pointer; transition: transform 0.3s ease; margin-bottom: 10px; }
-        .mail-icon:hover { transform: scale(1.1) rotate(-5deg); }
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    10% { opacity: 0.6; }
+    100% { transform: translateY(-110vh) scale(1.4); opacity: 0; }
+}
 
-        .prank-icon, .bunny-icon, .cute-icon, .sad-icon {
-            width: 130px; margin-bottom: 15px; border-radius: 15px;
-        }
+/* LOADER */
+#loader {
+    position: fixed;
+    inset: 0;
+    background: #ffe6e9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1s ease;
+}
 
-        .float-anim { animation: float 3s ease-in-out infinite; }
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
+#loader img {
+    width: 150px;
+}
 
-        /* --- TEXT STYLING --- */
-        h1 {
-            color: #ff4d6d; font-size: 1.4rem; margin-bottom: 8px; font-weight: 700;
-            text-shadow: 1px 1px 0px rgba(255, 200, 200, 0.5); 
-        }
-        
-        .error-text { color: #d6334f; font-weight: 800; font-size: 1.6rem; }
-        .instruction { color: #888; font-size: 0.9rem; font-weight: 600; margin-top: 5px; }
-        
-        .message-text {
-            color: #555; font-size: 0.9rem; line-height: 1.6; font-weight: 600;
-            text-align: justify; text-align-last: center; margin-bottom: 20px;
-        }
+/* CARD */
+.card {
+    backdrop-filter: blur(18px);
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 28px;
+    padding: 2.5rem 2rem;
+    width: 90%;
+    max-width: 360px;
+    text-align: center;
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.2),
+        inset 0 0 30px rgba(255,255,255,0.4);
 
-        /* --- BUTTONS --- */
-        .btn {
-            background-color: #ff8fa3; 
-            color: white; border: none; padding: 12px 28px;
-            font-size: 0.95rem; font-weight: 700; border-radius: 50px;
-            cursor: pointer; transition: all 0.3s ease; /* Smooth transition */
-            margin-top: 10px; font-family: 'Quicksand', sans-serif;
-            box-shadow: 0 4px 6px rgba(255, 77, 109, 0.2);
-            display: inline-block; 
-            margin: 5px;
-        }
-        .btn:hover { background-color: #ff4d6d; } 
-        
-        .btn-danger { background-color: #ff5c5c; }
-        .btn-danger:hover { background-color: #ff2e2e; }
+    opacity: 0;
+    transform: scale(0.9) translateY(30px);
+    transition: all 1s ease;
+}
 
-        /* YES/NO BUTTON CONTAINER */
-        .button-group {
-            position: relative;
-            height: 150px; 
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+.content-visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
 
-        #no-btn, #yes-btn {
-            position: absolute; 
-            transition: all 0.3s ease; 
-        }
+/* TEXT */
+h1 {
+    color: #ff4d6d;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
 
-        #no-btn { right: 20%; }
-        #yes-btn { left: 20%; z-index: 20; }
+.error-text {
+    font-size: 1.6rem;
+    color: #d6334f;
+}
 
-        .hidden { display: none; }
+.instruction {
+    font-size: 0.9rem;
+    color: #777;
+}
 
-    </style>
+.message-text {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* IMAGES */
+.mail-icon,
+.prank-icon,
+.bunny-icon,
+.cute-icon,
+.sad-icon {
+    width: 130px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+}
+
+.mail-icon {
+    cursor: pointer;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+.float-anim {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+/* BUTTONS */
+.btn {
+    background: linear-gradient(135deg, #ff8fa3, #ff4d6d);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 15px rgba(255,77,109,0.3);
+    margin: 6px;
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 20px rgba(255,77,109,0.4);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ff6b6b, #ff2e2e);
+}
+
+/* YES / NO */
+.button-group {
+    position: relative;
+    height: 160px;
+}
+
+#yes-btn {
+    position: absolute;
+    left: 15%;
+    z-index: 10;
+}
+
+#no-btn {
+    position: absolute;
+    right: 15%;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.hidden {
+    display: none;
+}
+</style>
 </head>
+
 <body>
 
-    <div id="loader">
-        <img src="spider-lily.gif" alt="Loading...">
+<div id="loader">
+    <img src="spider-lily.gif" alt="Loading">
+</div>
+
+<div class="card" id="main-card">
+
+    <div id="mail-section">
+        <img src="vmail.gif" class="mail-icon" onclick="triggerPrank()">
+        <h1>Hello, Kyle! ♡</h1>
+        <p class="instruction">Tap the mail to open it ✉️</p>
     </div>
 
-    <div class="card" id="main-card">
-        
-        <div id="mail-section">
-            <img src="vmail.gif" alt="Open Mail" class="mail-icon" onclick="triggerPrank()">
-            <h1>Hello, Kyle! I have something to tell you... (ꈍᴗꈍ) ♡</h1>
-            <p class="instruction">Tap the mail to open it! ✉️✨</p>
-        </div>
-
-        <div id="prank-section-1" class="hidden">
-            <img src="prank.gif" alt="Error" class="prank-icon">
-            <h1 class="error-text">SYSTEM ERROR! (＞﹏＜)</h1>
-            <p class="instruction">Oh no! This wasn't supposed to happen! ☁️💦</p>
-            <button class="btn" onclick="triggerSecondError()">Fix System 🔧✨</button>
-        </div>
-
-        <div id="prank-section-2" class="hidden">
-            <img src="prankk.gif" alt="Error" class="prank-icon">
-            <h1 class="error-text">CRITICAL FAILURE! ✖_✖</h1>
-            <p class="instruction">Virus detected! Rebooting... ⚠️💔</p>
-            <button class="btn btn-danger" onclick="showRealMessage()">EMERGENCY REBOOT 🚨</button>
-        </div>
-        
-        <div id="message-section" class="hidden">
-            <img src="bunny.gif" alt="Cute Bunny" class="bunny-icon">
-            <p class="message-text">
-                ✨ I didn't expect that someone who has started as a stranger would end up meaning this much to me. 
-                We've had our ups and downs, and there were moments when we stopped talking, but I'm really 
-                thankful that we're okay again and able to talk now. It means a lot to me, and I'm genuinely glad I met you. ♡
-            </p>
-            <button class="btn" onclick="nextSurprise()">Next ➜ (｡•̀ᴗ-)✧</button>
-        </div>
-
-        <div id="question-section" class="hidden">
-            <img src="cute.gif" alt="Cute Question" class="cute-icon float-anim">
-            <h1>Can I be your valentine? 👉👈</h1>
-            <p class="instruction" id="click-instruction">Catch the Yes button! ♡</p>
-            
-            <div class="button-group">
-                <button class="btn" id="yes-btn" onclick="handleYes()">Yes! 💖</button>
-                <button class="btn btn-danger" id="no-btn" onmouseover="moveNo()" onclick="handleNoClick()">No 💔</button>
-            </div>
-        </div>
-
-        <div id="success-section" class="hidden">
-            <img src="cute.gif" alt="Success" class="cute-icon float-anim">
-            <h1>Kimi lang! (✿ ♥‿♥)</h1>
-        </div>
-
-        <div id="sad-section" class="hidden">
-            <img src="cry.gif" alt="Sad" class="sad-icon">
-            <h1>(╥﹏╥)</h1>
-        </div>
-
+    <div id="prank-section-1" class="hidden">
+        <img src="prank.gif" class="prank-icon">
+        <h1 class="error-text">SYSTEM ERROR!</h1>
+        <p class="instruction">Something went wrong…</p>
+        <button class="btn" onclick="triggerSecondError()">Fix System</button>
     </div>
 
-    <script>
-        // --- PREVIOUS LOGIC ---
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                const loader = document.getElementById('loader');
-                const card = document.getElementById('main-card');
-                loader.style.opacity = '0';
-                card.classList.add('content-visible');
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    document.body.style.overflow = 'auto'; 
-                }, 1000);
-            }, 8000); 
-        });
+    <div id="prank-section-2" class="hidden">
+        <img src="prankk.gif" class="prank-icon">
+        <h1 class="error-text">CRITICAL FAILURE</h1>
+        <button class="btn btn-danger" onclick="showRealMessage()">Emergency Reboot</button>
+    </div>
 
-        function triggerPrank() {
-            document.getElementById('mail-section').classList.add('hidden');
-            document.getElementById('prank-section-1').classList.remove('hidden');
-        }
+    <div id="message-section" class="hidden">
+        <img src="bunny.gif" class="bunny-icon">
+        <p class="message-text">
+            I didn’t expect that someone who started as a stranger would end up
+            meaning this much to me. I’m really thankful we’re talking again.
+            I’m genuinely glad I met you. ♡
+        </p>
+        <button class="btn" onclick="nextSurprise()">Next</button>
+    </div>
 
-        function triggerSecondError() {
-            document.getElementById('prank-section-1').classList.add('hidden');
-            document.getElementById('prank-section-2').classList.remove('hidden');
-        }
+    <div id="question-section" class="hidden">
+        <img src="cute.gif" class="cute-icon float-anim">
+        <h1>Can I be your valentine? 👉👈</h1>
+        <p class="instruction">Catch the Yes button ♡</p>
 
-        function showRealMessage() {
-            alert("Just kidding! No errors here~ (≧◡≦)");
-            document.getElementById('prank-section-2').classList.add('hidden');
-            document.getElementById('message-section').classList.remove('hidden');
-        }
+        <div class="button-group">
+            <button class="btn" id="yes-btn" onclick="handleYes()">Yes 💖</button>
+            <button class="btn btn-danger" id="no-btn" onmouseover="moveNo()" onclick="handleNoClick()">No 💔</button>
+        </div>
+    </div>
 
-        function nextSurprise() {
-            document.getElementById('message-section').classList.add('hidden');
-            document.getElementById('question-section').classList.remove('hidden');
-        }
+    <div id="success-section" class="hidden">
+        <img src="cute.gif" class="cute-icon float-anim">
+        <h1>Kimi lang! (✿♥‿♥)</h1>
+    </div>
 
-        // --- NEW LOGIC: Both buttons move & grow ---
+    <div id="sad-section" class="hidden">
+        <img src="cry.gif" class="sad-icon">
+        <h1>(╥﹏╥)</h1>
+    </div>
 
-        let yesClickCount = 0;
-        let noClickCount = 0;
+</div>
 
-        function getRandomPosition() {
-            const x = Math.random() * 200 - 100; 
-            const y = Math.random() * 100 - 50;
-            return { x, y };
-        }
+<script>
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('loader').style.opacity = '0';
+        document.getElementById('main-card').classList.add('content-visible');
+        setTimeout(() => document.getElementById('loader').remove(), 1000);
+    }, 3000);
+});
 
-        // 1. YES BUTTON (Grows 20% each time)
-        function handleYes() {
-            yesClickCount++;
-            const pos = getRandomPosition();
-            const currentSize = 1 + (yesClickCount * 0.1); // +20% size
-            
-            const yesBtn = document.getElementById('yes-btn');
-            yesBtn.style.transform = `translate(${pos.x}px, ${pos.y}px) scale(${currentSize})`;
+function triggerPrank() {
+    mail-section.classList.add('hidden');
+    prank-section-1.classList.remove('hidden');
+}
 
-            if (yesClickCount >= 5) {
-                document.getElementById('question-section').classList.add('hidden');
-                document.getElementById('success-section').classList.remove('hidden');
-            }
-        }
+function triggerSecondError() {
+    prank-section-1.classList.add('hidden');
+    prank-section-2.classList.remove('hidden');
+}
 
-        // 2. NO BUTTON (Grows 10% each time)
-        function moveNo() {
-            const noBtn = document.getElementById('no-btn');
-            const pos = getRandomPosition();
-            
-            // Grows slower (10%)
-            const currentSize = 1 + (noClickCount * 0.1); 
-            
-            noBtn.style.transform = `translate(${pos.x}px, ${pos.y}px) scale(${currentSize})`;
-        }
+function showRealMessage() {
+    alert("Just kidding 💗");
+    prank-section-2.classList.add('hidden');
+    message-section.classList.remove('hidden');
+}
 
-        function handleNoClick() {
-            noClickCount++;
-            moveNo(); 
-            
-            if (noClickCount >= 5) {
-                document.getElementById('question-section').classList.add('hidden');
-                document.getElementById('sad-section').classList.remove('hidden');
-            }
-        }
-    </script>
+function nextSurprise() {
+    message-section.classList.add('hidden');
+    question-section.classList.remove('hidden');
+}
+
+let yesClickCount = 0;
+let noClickCount = 0;
+
+function handleYes() {
+    yesClickCount++;
+    const btn = document.getElementById('yes-btn');
+    btn.style.transform = `scale(${1 + yesClickCount * 0.15})`;
+
+    if (yesClickCount >= 5) {
+        question-section.classList.add('hidden');
+        success-section.classList.remove('hidden');
+    }
+}
+
+function moveNo() {
+    const btn = document.getElementById('no-btn');
+    const x = Math.random() * 250 - 125;
+    const y = Math.random() * 120 - 60;
+    btn.style.transform = `translate(${x}px, ${y}px)`;
+    btn.style.animation = 'shake 0.4s';
+    setTimeout(() => btn.style.animation = '', 400);
+}
+
+function handleNoClick() {
+    noClickCount++;
+    moveNo();
+    if (noClickCount >= 5) {
+        question-section.classList.add('hidden');
+        sad-section.classList.remove('hidden');
+    }
+}
+
+/* HEARTS */
+setInterval(() => {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = '💗';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}, 500);
+</script>
 
 </body>
 </html>
