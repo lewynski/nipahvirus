@@ -16,7 +16,6 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            /* Using the cute font everywhere */
             font-family: 'Quicksand', sans-serif; 
             overflow: hidden;
             
@@ -42,106 +41,92 @@
             transition: opacity 1s ease-out;
         }
 
-        #loader img {
-            width: 150px;
-            height: auto;
-        }
+        #loader img { width: 150px; height: auto; }
 
         /* --- MAIN CARD --- */
         .card {
             background: rgba(255, 255, 255, 0.95);
             padding: 2.5rem 2rem;
-            border-radius: 25px; /* Rounder corners = Cuter */
+            border-radius: 25px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             text-align: center;
             max-width: 350px;
             width: 85%;
             position: relative;
             z-index: 10;
-            
             opacity: 0; 
             transform: translateY(20px);
             transition: opacity 1s ease, transform 1s ease;
         }
 
-        .content-visible {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
+        .content-visible { opacity: 1 !important; transform: translateY(0) !important; }
 
-        /* --- IMAGES --- */
-        .mail-icon {
-            width: 120px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            margin-bottom: 10px;
-        }
+        /* --- IMAGES & ANIMATIONS --- */
+        .mail-icon { width: 120px; cursor: pointer; transition: transform 0.3s ease; margin-bottom: 10px; }
         .mail-icon:hover { transform: scale(1.1) rotate(-5deg); }
 
-        .prank-icon, .bunny-icon {
-            width: 120px;
-            margin-bottom: 15px;
-            border-radius: 15px;
+        .prank-icon, .bunny-icon, .cute-icon, .sad-icon {
+            width: 130px; margin-bottom: 15px; border-radius: 15px;
+        }
+
+        .float-anim { animation: float 3s ease-in-out infinite; }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
         /* --- TEXT STYLING --- */
         h1 {
-            color: #ff4d6d;
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-            font-weight: 700;
-            /* Cute text shadow */
+            color: #ff4d6d; font-size: 1.4rem; margin-bottom: 8px; font-weight: 700;
             text-shadow: 1px 1px 0px rgba(255, 200, 200, 0.5); 
         }
         
-        .error-text {
-            color: #d6334f;
-            font-family: 'Quicksand', sans-serif; /* Keep it cute even in error */
-            font-weight: 800;
-            font-size: 1.6rem;
-        }
-
-        .instruction {
-            color: #888;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-top: 5px;
-        }
-
-        /* Message Text */
+        .error-text { color: #d6334f; font-weight: 800; font-size: 1.6rem; }
+        .instruction { color: #888; font-size: 0.9rem; font-weight: 600; margin-top: 5px; }
+        
         .message-text {
-            color: #555;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            font-weight: 600;
-            text-align: justify;
-            text-align-last: center;
-            margin-bottom: 20px;
+            color: #555; font-size: 0.9rem; line-height: 1.6; font-weight: 600;
+            text-align: justify; text-align-last: center; margin-bottom: 20px;
         }
 
         /* --- BUTTONS --- */
         .btn {
-            background-color: #ff8fa3; /* Pastel Pink */
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-            margin-top: 10px;
-            font-family: 'Quicksand', sans-serif;
-            box-shadow: 0 4px 6px rgba(255, 77, 109, 0.2); /* Soft shadow */
+            background-color: #ff8fa3; 
+            color: white; border: none; padding: 12px 28px;
+            font-size: 0.95rem; font-weight: 700; border-radius: 50px;
+            cursor: pointer; transition: all 0.2s ease; /* Smooth growing */
+            margin-top: 10px; font-family: 'Quicksand', sans-serif;
+            box-shadow: 0 4px 6px rgba(255, 77, 109, 0.2);
+            display: inline-block; 
+            margin: 5px;
         }
         .btn:hover { background-color: #ff4d6d; transform: scale(1.05); }
         
-        .btn-danger {
-            background-color: #ff5c5c; /* Soft Red */
-        }
+        .btn-danger { background-color: #ff5c5c; }
         .btn-danger:hover { background-color: #ff2e2e; }
 
-        /* Utility to hide sections */
+        /* YES/NO BUTTON CONTAINER */
+        .button-group {
+            position: relative;
+            height: 100px; /* More space for the growing button */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #no-btn {
+            position: absolute; 
+            right: 15%; 
+            transition: top 0.2s, left 0.2s; 
+        }
+        
+        #yes-btn {
+            position: absolute;
+            left: 15%; 
+            z-index: 20; 
+        }
+
         .hidden { display: none; }
 
     </style>
@@ -184,10 +169,33 @@
             <button class="btn" onclick="nextSurprise()">Next ➜ (｡•̀ᴗ-)✧</button>
         </div>
 
+        <div id="question-section" class="hidden">
+            <img src="cute.gif" alt="Cute Question" class="cute-icon float-anim">
+            <h1>Can I be your valentine? 🥺👉👈</h1>
+            <p class="instruction" id="click-instruction">Please answer... ♡</p>
+            
+            <div class="button-group">
+                <button class="btn" id="yes-btn" onclick="handleYes()">Yes! 💖</button>
+                <button class="btn btn-danger" id="no-btn" onmouseover="moveNo()" onclick="handleNoClick()">No 💔</button>
+            </div>
+        </div>
+
+        <div id="success-section" class="hidden">
+            <img src="cute.gif" alt="Success" class="cute-icon float-anim">
+            <h1>Kimi lang! (✿ ♥‿♥)</h1>
+            <p class="instruction">Thank you for saying yes! ✨</p>
+        </div>
+
+        <div id="sad-section" class="hidden">
+            <img src="sad.gif" alt="Sad" class="sad-icon">
+            <h1>Oh... okay... (╥﹏╥)</h1>
+            <p class="instruction">Maybe next time... 💔</p>
+        </div>
+
     </div>
 
     <script>
-        // 1. Loading Screen (8 seconds)
+        // --- PREVIOUS LOGIC (Loading, Pranks, Message) ---
         window.addEventListener('load', function() {
             setTimeout(function() {
                 const loader = document.getElementById('loader');
@@ -201,28 +209,70 @@
             }, 8000); 
         });
 
-        // 2. Mail Click -> Show Error 1
         function triggerPrank() {
             document.getElementById('mail-section').classList.add('hidden');
             document.getElementById('prank-section-1').classList.remove('hidden');
         }
 
-        // 3. Fix Click -> Show Error 2
         function triggerSecondError() {
             document.getElementById('prank-section-1').classList.add('hidden');
             document.getElementById('prank-section-2').classList.remove('hidden');
         }
 
-        // 4. Reboot Click -> Show Real Message
         function showRealMessage() {
             alert("Just kidding! No errors here~ (≧◡≦)");
             document.getElementById('prank-section-2').classList.add('hidden');
             document.getElementById('message-section').classList.remove('hidden');
         }
-        
-        // 5. Next Button
+
         function nextSurprise() {
-            alert("Coming up next...");
+            document.getElementById('message-section').classList.add('hidden');
+            document.getElementById('question-section').classList.remove('hidden');
+        }
+
+        // --- NEW 5-CLICK LOGIC ---
+
+        let yesClickCount = 0;
+        let noClickCount = 0;
+
+        // 1. YES BUTTON LOGIC
+        function handleYes() {
+            yesClickCount++;
+            
+            // Make the button grow with each click!
+            const yesBtn = document.getElementById('yes-btn');
+            const currentSize = 1 + (yesClickCount * 0.2); // grows by 20% each time
+            yesBtn.style.transform = `scale(${currentSize})`;
+            
+            // Optional: Change text to encourage them
+            if(yesClickCount < 5) {
+                // Shake effect or just wait
+            }
+
+            if (yesClickCount >= 5) {
+                // Success!
+                document.getElementById('question-section').classList.add('hidden');
+                document.getElementById('success-section').classList.remove('hidden');
+            }
+        }
+
+        // 2. NO BUTTON LOGIC
+        function moveNo() {
+            const noBtn = document.getElementById('no-btn');
+            const x = Math.random() * 200 - 100; 
+            const y = Math.random() * 100 - 50;  
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function handleNoClick() {
+            noClickCount++;
+            moveNo(); 
+
+            if (noClickCount >= 5) {
+                // Sad Ending
+                document.getElementById('question-section').classList.add('hidden');
+                document.getElementById('sad-section').classList.remove('hidden');
+            }
         }
     </script>
 
