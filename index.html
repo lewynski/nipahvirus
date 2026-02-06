@@ -80,7 +80,7 @@
         .prank-icon {
             width: 120px;
             margin-bottom: 15px;
-            border-radius: 10px; /* Slight rounded corners for the gif */
+            border-radius: 10px;
         }
 
         /* --- TEXT STYLING --- */
@@ -120,6 +120,12 @@
             font-family: 'Playfair Display', serif;
         }
         .btn:hover { background-color: #d6334f; transform: translateY(-2px); }
+        
+        /* Red button for the second error */
+        .btn-danger {
+            background-color: #ff0000;
+        }
+        .btn-danger:hover { background-color: #cc0000; }
 
         /* Utility to hide sections */
         .hidden { display: none; }
@@ -140,50 +146,53 @@
             <p class="instruction">Tap the mail to open</p>
         </div>
 
-        <div id="prank-section" class="hidden">
+        <div id="prank-section-1" class="hidden">
             <img src="prank.gif" alt="Error" class="prank-icon">
             <h1 class="error-text">SYSTEM ERROR!</h1>
             <p class="instruction">Wait... this wasn't supposed to happen.</p>
-            <button class="btn" onclick="fixSystem()">Fix System & Continue</button>
+            <button class="btn" onclick="triggerSecondError()">Fix System</button>
+        </div>
+
+        <div id="prank-section-2" class="hidden">
+            <img src="prank.gif" alt="Error" class="prank-icon">
+            <h1 class="error-text">CRITICAL FAILURE!</h1>
+            <p class="instruction">Virus detected. Attempting manual reboot...</p>
+            <button class="btn btn-danger" onclick="finalFix()">EMERGENCY REBOOT</button>
         </div>
 
     </div>
 
     <script>
-        // 1. Handle Loading Screen
+        // 1. Loading Screen (8 seconds)
         window.addEventListener('load', function() {
             setTimeout(function() {
                 const loader = document.getElementById('loader');
                 const card = document.getElementById('main-card');
-
                 loader.style.opacity = '0';
                 card.classList.add('content-visible');
-
                 setTimeout(() => {
                     loader.style.display = 'none';
                     document.body.style.overflow = 'auto'; 
                 }, 1000);
-
-            }, 8000); // 8 seconds load time
+            }, 8000); 
         });
 
-        // 2. Handle Mail Click -> Show Prank
+        // 2. Mail Click -> Show Error 1
         function triggerPrank() {
-            const mailSection = document.getElementById('mail-section');
-            const prankSection = document.getElementById('prank-section');
-
-            // Hide mail, show prank
-            mailSection.classList.add('hidden');
-            prankSection.classList.remove('hidden');
-            
-            // Optional: You could add a glitch sound effect here later!
+            document.getElementById('mail-section').classList.add('hidden');
+            document.getElementById('prank-section-1').classList.remove('hidden');
         }
 
-        // 3. Handle Prank "Fix" Button -> Next Slide
-        function fixSystem() {
-            // This is where we will go to the REAL Valentine content next
-            alert("Okay, moving to the real surprise now...");
-            // We will update this function in the next step!
+        // 3. Fix Click -> Show Error 2
+        function triggerSecondError() {
+            document.getElementById('prank-section-1').classList.add('hidden');
+            document.getElementById('prank-section-2').classList.remove('hidden');
+        }
+
+        // 4. Reboot Click -> Move to Real Content
+        function finalFix() {
+            alert("Okay, okay, just kidding! Here is the real question...");
+            // Next step goes here!
         }
     </script>
 
