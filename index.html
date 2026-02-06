@@ -89,11 +89,11 @@
         <button class="btn" onclick="revealSurprise()">Click Me</button>
     </div>
 
-    <script>
+ <script>
         // Wait for the window to fully load (images, styles, etc.)
         window.addEventListener('load', function() {
             
-            // Optional: minimal delay so they actually see the cool flower
+            // 8000 milliseconds = 8 seconds
             setTimeout(function() {
                 const loader = document.getElementById('loader');
                 const card = document.getElementById('main-card');
@@ -107,10 +107,10 @@
                 // Remove loader from DOM after fade is done so buttons work
                 setTimeout(() => {
                     loader.style.display = 'none';
-                    document.body.style.overflow = 'auto'; // Re-enable scrolling if needed
+                    document.body.style.overflow = 'auto'; 
                 }, 1000);
 
-            }, 2000); // 2000 milliseconds = 2 seconds delay
+            }, 10000); // <--- This determines the 8 second wait
         });
 
         function revealSurprise() {
